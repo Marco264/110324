@@ -116,6 +116,38 @@
 
         // Agregar control de hash para permitir enlaces directos a ubicaciones y configuración de capas
         var hash = new L.Hash(map);
+//aca arranca*
+        // Carga el GeoJSON desde la URL
+        fetch('https://parcelario-13-12-20.s3.sa-east-1.amazonaws.com/PArcelas-13-12-20-V4_geojson.geojson')
+          .then(response => response.json())
+          .then(data => {
+            // Crea la capa GeoJSON con estilo y eventos
+            const parcelasLayer = L.geoJSON(data, {
+              style: function(feature) {
+                // Puedes definir el estilo según las propiedades de cada polígono
+                return {
+                  color: 'blue',
+                  weight: 2,
+                  fillOpacity: 0.5
+                };
+              },
+              onEachFeature: function(feature, layer) {
+                // Agrega un evento de clic para mostrar las propiedades
+                layer.on('click', function() {
+                  const props = feature.properties;
+                  const popupContent = `
+                    <h3>${props.nombre}</h3>
+                    <p>Área: ${props.area} m²</p>
+                    <p>Otro dato: ${props.otrodato}</p>
+                  `;
+                  layer.bindPopup(popupContent);
+                });
+              }
+            }).addTo(map);
+//hasta aca llega*
+    // Agrega la capa al control de capas
+    const capasControl = L.control.layers({}, { 'Parcelas': parcelasLayer }).addTo(map);
+  });
 
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
