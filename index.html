@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
         html, body, #map {
@@ -56,7 +56,7 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
-        <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
         <script src="js/leaflet-measure.js"></script>
         <script src="data/Zonificacion_220323copiar_0.js"></script>
         <script src="data/Cursosycuerposdeagua_1.js"></script>
@@ -892,28 +892,17 @@
         });
         bounds_group.addLayer(layer_Esp_verdePUNTORelev_OSM261023_8);
 
-        // Configurar Algolia Search
-        var algoliaProvider = L.Control.Geocoder.algolia('MWT23MQRWZ', '29a77c8b242f4ff0557627bc8741e8ee');
-        
-        // Configurar Nominatim
-        var nominatimProvider = L.Control.Geocoder.nominatim();
-        
         var osmGeocoder = new L.Control.Geocoder({
-          collapsed: true,
-          position: 'topleft',
-          text: 'Search',
-          title: 'Testing',
-          geocodingQueryParams: {
-            nominatim: { // Parámetros adicionales para Nominatim
-              // ...
-            }
-          },
-          geocodingProviders: [
-            L.Control.Geocoder.nominatim(), // OpenStreetMap
-            algoliaProvider, // Algolia Search
-            nominatimProvider // Nominatim
-          ]
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
         }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
+        var baseMaps = {};
             
         L.control.layers(baseMaps,{'<img src="legend/Esp_verdePUNTORelev_OSM261023_8.png" /> Esp_verde-PUNTO-Relev_OSM-26-10-23': layer_Esp_verdePUNTORelev_OSM261023_8,'<img src="legend/Esp_verdePOLRelev_OSM261023_7.png" /> Esp_verde-POL-Relev_OSM-26-10-23': layer_Esp_verdePOLRelev_OSM261023_7,'<img src="legend/estaciones_recorte_6.png" /> estaciones_recorte': layer_estaciones_recorte_6,'<img src="legend/lineas_ferroviarias_5.png" /> lineas_ferroviarias': layer_lineas_ferroviarias_5,'<img src="legend/limiteslocalidadescopiar_4.png" /> limites localidades copiar': layer_limiteslocalidadescopiar_4,'<img src="legend/BarriosPopRENABAP_200923_3.png" /> BarriosPop-RENABAP_20-09-23': layer_BarriosPopRENABAP_200923_3,'UrbCerradas_12-07-23<br /><table><tr><td style="text-align: center;"><img src="legend/UrbCerradas_120723_2_Clausurapreventiva0.png" /></td><td>Clausura preventiva</td></tr><tr><td style="text-align: center;"><img src="legend/UrbCerradas_120723_2_Otros1.png" /></td><td>Otros</td></tr><tr><td style="text-align: center;"><img src="legend/UrbCerradas_120723_2_RegistradoRPUC2.png" /></td><td>Registrado RPUC</td></tr><tr><td style="text-align: center;"><img src="legend/UrbCerradas_120723_2_Empadronado3.png" /></td><td>Empadronado</td></tr><tr><td style="text-align: center;"><img src="legend/UrbCerradas_120723_2_Noaplica4.png" /></td><td>No aplica</td></tr></table>': layer_UrbCerradas_120723_2,'<img src="legend/Cursosycuerposdeagua_1.png" /> Cursos y cuerpos de agua': layer_Cursosycuerposdeagua_1,'Zonificacion_22-03-23 copiar<br /><table><tr><td style="text-align: center;"><img src="legend/Zonificacion_220323copiar_0_agropecuario0.png" /></td><td>agropecuario</td></tr><tr><td style="text-align: center;"><img src="legend/Zonificacion_220323copiar_0_clubdecampo1.png" /></td><td>club de campo</td></tr><tr><td style="text-align: center;"><img src="legend/Zonificacion_220323copiar_0_comercial2.png" /></td><td>comercial</td></tr><tr><td style="text-align: center;"><img src="legend/Zonificacion_220323copiar_0_esparcimiento3.png" /></td><td>esparcimiento</td></tr><tr><td style="text-align: center;"><img src="legend/Zonificacion_220323copiar_0_industrial4.png" /></td><td>industrial</td></tr><tr><td style="text-align: center;"><img src="legend/Zonificacion_220323copiar_0_residencialmediaalta5.png" /></td><td>residencial media-alta</td></tr><tr><td style="text-align: center;"><img src="legend/Zonificacion_220323copiar_0_residencialmediabaja6.png" /></td><td>residencial media-baja</td></tr><tr><td style="text-align: center;"><img src="legend/Zonificacion_220323copiar_0_torrecomercial7.png" /></td><td>torre comercial</td></tr><tr><td style="text-align: center;"><img src="legend/Zonificacion_220323copiar_0_torreresidencial8.png" /></td><td>torre residencial</td></tr><tr><td style="text-align: center;"><img src="legend/Zonificacion_220323copiar_0_usoespecifico9.png" /></td><td>uso especifico</td></tr><tr><td style="text-align: center;"><img src="legend/Zonificacion_220323copiar_0_nuevonúcleourbano10.png" /></td><td>nuevo núcleo urbano</td></tr></table>': layer_Zonificacion_220323copiar_0,}).addTo(map);
         setBounds();
