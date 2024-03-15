@@ -894,8 +894,10 @@
 
         // Configurar Algolia Search
         var algoliaProvider = L.Control.Geocoder.algolia('MWT23MQRWZ', '29a77c8b242f4ff0557627bc8741e8ee');
+        
         // Configurar Nominatim
         var nominatimProvider = L.Control.Geocoder.nominatim();
+        
         var osmGeocoder = new L.Control.Geocoder({
           collapsed: true,
           position: 'topleft',
@@ -907,7 +909,7 @@
             }
           },
           geocodingProviders: [
-            L.Control.Geocoder.PROVIDERS.osmProvider, // OpenStreetMap
+            L.Control.Geocoder.nominatim(), // OpenStreetMap
             algoliaProvider, // Algolia Search
             nominatimProvider // Nominatim
           ]
