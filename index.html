@@ -58,7 +58,6 @@
         <script src="js/labels.js"></script>
         <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
         <script src="js/leaflet-measure.js"></script>
-        <script src="https://unpkg.com/geojson-vt@3.2.0/geojson-vt.js"></script>
         <script src="data/Zonificacion_220323copiar_0.js"></script>
         <script src="data/Cursosycuerposdeagua_1.js"></script>
         <script src="data/UrbCerradas_120723_2.js"></script>
@@ -2177,27 +2176,7 @@
         var baseMaps = {};
         L.control.layers(baseMaps,{'<img src="legend/BENAVIDEZ_15.png" /> BENAVIDEZ': layer_BENAVIDEZ_15,'<img src="legend/BENAVIDEZ_2_14.png" /> BENAVIDEZ_2': layer_BENAVIDEZ_2_14,'<img src="legend/DELTADETIGRE_13.png" /> DELTA DE TIGRE': layer_DELTADETIGRE_13,'<img src="legend/DIQUELUJAN_12.png" /> DIQUE LUJAN': layer_DIQUELUJAN_12,'<img src="legend/DONTORCUATO_2_11.png" /> DON TORCUATO_2': layer_DONTORCUATO_2_11,'<img src="legend/DONTORCUATO_10.png" /> DON TORCUATO': layer_DONTORCUATO_10,'<img src="legend/ELTALAR_9.png" /> EL TALAR': layer_ELTALAR_9,'<img src="legend/GRALPACHECO_8.png" /> GRAL. PACHECO': layer_GRALPACHECO_8,'<img src="legend/GRALPACHECO_2_7.png" /> GRAL. PACHECO_2': layer_GRALPACHECO_2_7,'<img src="legend/GRALPACHECO_3_6.png" /> GRAL. PACHECO_3': layer_GRALPACHECO_3_6,'<img src="legend/NORDELTA_5.png" /> NORDELTA': layer_NORDELTA_5,'<img src="legend/RICARDOROJAS_4.png" /> RICARDO ROJAS': layer_RICARDOROJAS_4,'<img src="legend/RINCONDEMILBERG_3.png" /> RINCON DE MILBERG': layer_RINCONDEMILBERG_3,'<img src="legend/TIGRE_2.png" /> TIGRE': layer_TIGRE_2,'<img src="legend/TIGRE_2_1.png" /> TIGRE_2': layer_TIGRE_2_1,'<img src="legend/TRONCOSDELTALAR_0.png" /> TRONCOS DEL TALAR': layer_TRONCOSDELTALAR_0,}).addTo(map);
         setBounds();
-        // build an initial index of tiles
-        var tileIndex = geojsonvt(geoJSON);
-        
-        // request a particular tile
-        var features = tileIndex.getTile(z, x, y).features;
-        
-        // show an array of tile coordinates created so far
-        console.log(tileIndex.tileCoords); // [{z: 0, x: 0, y: 0}, ...]
-        var tileIndex = geojsonvt(data, {
-            	maxZoom: 14,  // max zoom to preserve detail on; can't be higher than 24
-            	tolerance: 5, // simplification tolerance (higher means simpler)
-            	extent: 4096, // tile extent (both width and height)
-            	buffer: 64,   // tile buffer on each side
-            	debug: 0,     // logging level (0 to disable, 1 or 2)
-            	lineMetrics: false, // whether to enable line metrics tracking for LineString/MultiLineString features
-            	promoteId: null,    // name of a feature property to promote to feature.id. Cannot be used with `generateId`
-            	generateId: false,  // whether to generate feature ids. Cannot be used with `promoteId`
-            	indexMaxZoom: 5,       // max zoom in the initial tile index
-            	indexMaxPoints: 100000 // max number of points per tile in the index
-        });
-            
+
         var coordinatesInfo = document.getElementById('coordinates-info');
         function onMapClick(e) {
             // Actualizar el contenido del elemento HTML con las coordenadas
