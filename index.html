@@ -106,13 +106,17 @@
                 }
             }
 
+            // Llama a la función verificarContraseña cuando se hace clic en el botón
+            document.getElementById("submitBtn").addEventListener("click", function() {
+                verificarContraseña();
+            });
+
             // Llama a la función verificarContraseña cuando se presiona la tecla Enter en el campo de entrada de la contraseña
             document.getElementById("password").addEventListener("keypress", function(e) {
                 if (e.key === 'Enter') {
                     verificarContraseña();
                 }
             });
-
             // Mostrar el diálogo modal después de que la página se haya cargado
             document.getElementById("passwordDialog").showModal();
         });    
