@@ -59,6 +59,10 @@
         <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
         <script src="js/leaflet-measure.js"></script>
         <script src="js/Leaflet.VectorGrid.bundled.js"></script>
+        <script src="//d3js.org/d3.v4.min.js"></script>
+        <script src="//npmcdn.com/geotiff@0.3.6/dist/geotiff.js"></script> <!-- optional -->
+        <!-- Plugin -->
+        <script src="https://ihcantabria.github.io/Leaflet.CanvasLayer.Field/dist/leaflet.canvaslayer.field.js"></script>
         <script src="data/Zonificacion_220323copiar_0.js"></script>
         <script src="data/Cursosycuerposdeagua_1.js"></script>
         <script src="data/UrbCerradas_120723_2.js"></script>
@@ -190,6 +194,48 @@
         .innerHTML = '';
         document.getElementsByClassName('leaflet-control-measure-toggle')[0]
         .className += ' fas fa-ruler';
+
+        d3.buffer("https://dem-tigre-ign.s3.sa-east-1.amazonaws.com/DEM5m_IGN.tif").then(function(arrayBuffer) {
+            var s = L.ScalarField.fromGeoTIFF(arrayBuffer);
+            var layer = L.canvasLayer.scalarField(s, {
+                color: chroma.scale('viridis').domain(s.range),
+                opacity: 0.65
+            }).addTo(map);
+        
+            map.fitBounds(layer.getBounds());
+        
+            // Agregar interactividad
+            layer.on('click', function(e) {
+                if (e.value !== null) {
+                    let v = e.value.toFixed(2);
+                    let html = (`<span>Valor del pixel: ${v}</span>`);
+                    let popup = L.popup()
+                        .setLatLng(e.latlng)
+                        .setContent(html)
+                        .openOn(map);
+                }
+            });
+        
+            // Agregar control de transparencia
+            var slider = L.control({position: 'topright'});
+            slider.onAdd = function (map) {
+                this._div = L.DomUtil.create('div', 'slider');
+                this.update();
+                return this._div;
+            };
+            slider.update = function (props) {
+                this._div.innerHTML = '<input type="range" min="0" max="1" step="0.1" id="transparencySlider" value="0.65" oninput="updateOpacity(this.value)">';
+            };
+            slider.addTo(map);
+        
+            // Función para actualizar la opacidad
+            window.updateOpacity = function(value) {
+                layer.options.opacity = value;
+                layer.redraw();
+            };
+        });
+
+            
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
